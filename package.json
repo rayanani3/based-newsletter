@@ -1,0 +1,23 @@
+{
+  "name": "based-newsletter",
+  "version": "1.0.0",
+  "description": "Self-hosted double-opt-in newsletter infra. Fastify + SQLite + SES. No third-party newsletter platform.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "prune": "node src/prune.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.654.0",
+    "@fastify/rate-limit": "^9.1.0",
+    "@fastify/static": "^7.0.4",
+    "better-sqlite3": "^11.3.0",
+    "fastify": "^4.28.1",
+    "nodemailer": "^6.9.15"
+  }
+}

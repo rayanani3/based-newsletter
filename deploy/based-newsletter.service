@@ -1,0 +1,21 @@
+[Unit]
+Description=based-newsletter (self-hosted double-opt-in newsletter API)
+After=network.target
+
+[Service]
+Type=simple
+User=newsletter
+WorkingDirectory=/opt/based-newsletter
+EnvironmentFile=/opt/based-newsletter/.env
+ExecStart=/usr/bin/node src/server.js
+Restart=on-failure
+RestartSec=3
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/based-newsletter
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

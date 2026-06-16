@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.local
+.local-smtp-sink.mjs
+*.db
+*.db-wal
+*.db-shm
+*.log

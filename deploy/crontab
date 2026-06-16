@@ -1,0 +1,3 @@
+# based-newsletter: purge unconfirmed signups daily at 03:00
+# install:  crontab -e   (as the 'newsletter' user)
+0 3 * * * cd /opt/based-newsletter && /usr/bin/node src/prune.js >> /var/log/based-newsletter-prune.log 2>&1
