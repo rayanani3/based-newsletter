@@ -82,14 +82,14 @@ f.addEventListener('submit', async (e) => {
     const data = await res.json();
     if (data.ok) {
       msg.className = 'msg ok';
-      msg.textContent = 'Check your inbox to confirm.';
+      msg.textContent = 'check your inbox to confirm.';
       f.reset();
     } else {
       msg.className = 'msg err';
-      msg.textContent = data.error === 'invalid_email' ? 'Enter a valid email.' : 'Something broke. Try again.';
+      msg.textContent = data.error === 'invalid_email' ? 'enter a valid email.' : 'something broke. try again.';
     }
   } catch {
-    msg.className = 'msg err'; msg.textContent = 'Network error.';
+    msg.className = 'msg err'; msg.textContent = 'network error.';
   } finally {
     btn.disabled = false; btn.textContent = 'subscribe';
   }
