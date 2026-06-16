@@ -17,7 +17,11 @@ const app = Fastify({
   trustProxy: true
 });
 
+// Registered non-global: the limit applies only to routes that opt in via
+// `config.rateLimit` (just /api/subscribe). Health/stats stay unthrottled so
+// uptime monitors don't get 429'd.
 await app.register(rateLimit, {
+  global: false,
   max: 5,
   timeWindow: '1 minute',
   keyGenerator: (req) => req.ip
@@ -28,8 +32,10 @@ await app.register(fastifyStatic, {
   prefix: '/'
 });
 
-// POST /api/subscribe  { email }
-app.post('/api/subscribe', async (req, reply) => {
+// POST /api/subscribe  { email }  — rate limited 5/min/IP (opt-in)
+app.post('/api/subscribe', {
+  config: { rateLimit: { max: 5, timeWindow: '1 minute' } }
+}, async (req, reply) => {
   const email = (req.body?.email || '').toString();
   if (!EMAIL_RE.test(email)) {
     return reply.code(400).send({ ok: false, error: 'invalid_email' });

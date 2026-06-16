@@ -1,3 +1,9 @@
 # based-newsletter: purge unconfirmed signups daily at 03:00
 # install:  crontab -e   (as the 'newsletter' user)
-0 3 * * * cd /opt/based-newsletter && /usr/bin/node src/prune.js >> /var/log/based-newsletter-prune.log 2>&1
+#
+# NOTE: cron does NOT load .env, so DB_PATH/PRUNE_AFTER_HOURS are set inline to
+# match .env. Without this, prune.js defaults to ./subscribers.db (the wrong DB)
+# and silently no-ops. prune.js needs no SMTP, so secrets aren't sourced here.
+# The log path must be writable by the 'newsletter' user — pre-create it:
+#   touch /var/log/based-newsletter-prune.log && chown newsletter: /var/log/based-newsletter-prune.log
+0 3 * * * cd /opt/based-newsletter && DB_PATH=/var/lib/based-newsletter/subscribers.db PRUNE_AFTER_HOURS=48 /usr/bin/node src/prune.js >> /var/log/based-newsletter-prune.log 2>&1
